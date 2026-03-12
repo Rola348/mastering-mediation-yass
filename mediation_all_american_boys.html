@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mediation — All American Boys | Year 12 English</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black: #0d0d0d; --white: #f5f2eb; --cream: #ede9df;
+    --red: #c0392b; --red-light: #e74c3c;
+    --gold: #c9a84c; --blue: #1a3a5c; --blue-light: #2c5f8a;
+    --grey: #8a8070; --green: #27ae60; --correct: #1e8449; --wrong: #922b21;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    background: rgba(13,13,13,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 60px;
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--gold); white-space: nowrap; }
+  .nav-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .nav-links a { color: var(--grey); text-decoration: none; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 6rem 6rem 4rem; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 45%;
+    background: linear-gradient(135deg, var(--red), var(--blue));
+    clip-path: polygon(20% 0%,100% 0%,100% 100%,0% 100%); opacity: 0.12;
+  }
+  .hero-tag { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; border: 1px solid var(--gold); padding: 0.4rem 1rem; display: inline-block; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem,7vw,6rem); font-weight: 900; line-height: 1.0; margin-bottom: 1.5rem; }
+  .hero h1 span { color: var(--red); display: block; }
+  .hero-sub { font-size: 1.05rem; color: rgba(245,242,235,0.65); max-width: 500px; line-height: 1.7; margin-bottom: 1.5rem; }
+  .section-nav { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .section-nav a { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; padding: 0.3rem 0.7rem; border: 1px solid rgba(245,242,235,0.18); color: rgba(245,242,235,0.5); transition: all 0.2s; }
+  .section-nav a:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 0.8rem 1.8rem; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: all 0.25s; }
+  .btn-primary { background: var(--red); color: var(--white); }
+  .btn-primary:hover { background: var(--red-light); transform: translateY(-2px); }
+  .btn-outline { background: transparent; color: var(--white); border: 1px solid rgba(245,242,235,0.35); }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+  .btn-gold { background: var(--gold); color: var(--black); }
+  .btn-gold:hover { background: #d4a840; transform: translateY(-2px); }
+  .scroll-hint { position: absolute; bottom: 2rem; left: 6rem; font-size: 0.72rem; color: var(--grey); letter-spacing: 0.15em; text-transform: uppercase; display: flex; align-items: center; gap: 0.75rem; }
+  .scroll-hint::before { content: ''; display: block; width: 40px; height: 1px; background: var(--grey); }
+
+  /* GENERIC */
+  section { padding: 5rem 6rem; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+  h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 700; margin-bottom: 1.5rem; line-height: 1.2; }
+  .divider { width: 60px; height: 3px; background: linear-gradient(90deg,var(--red),var(--gold)); margin-bottom: 3rem; }
+
+  /* WHAT */
+  #what { background: var(--black); }
+  .what-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .definition-box { background: var(--cream); color: var(--black); padding: 2.5rem; border-left: 5px solid var(--red); }
+  .definition-box p { font-size: 1.05rem; line-height: 1.8; }
+  .definition-box strong { color: var(--red); }
+  .compare-table { width: 100%; border-collapse: collapse; }
+  .compare-table th { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 1rem; text-align: left; }
+  .compare-table th:first-child { background: var(--wrong); color: var(--white); }
+  .compare-table th:last-child { background: var(--correct); color: var(--white); }
+  .compare-table td { padding: 0.85rem 1rem; font-size: 0.88rem; line-height: 1.5; border-bottom: 1px solid rgba(245,242,235,0.08); vertical-align: top; }
+  .compare-table td:first-child { color: rgba(245,242,235,0.5); border-right: 1px solid rgba(245,242,235,0.1); }
+  .compare-table td:last-child { color: rgba(245,242,235,0.88); }
+
+  /* STRUCTURE */
+  #structure { background: #111; }
+  .structure-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
+  .step-card { background: var(--black); padding: 2rem; border-top: 3px solid var(--gold); position: relative; }
+  .step-num { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: rgba(201,168,76,0.12); position: absolute; top: 0.5rem; right: 1rem; }
+  .step-card h3 { font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); margin-bottom: 0.75rem; }
+  .step-card p { font-size: 0.86rem; color: rgba(245,242,235,0.68); line-height: 1.6; margin-bottom: 0.75rem; }
+  .step-example { font-family: 'DM Mono', monospace; font-size: 0.76rem; color: var(--blue-light); background: rgba(44,95,138,0.1); padding: 0.5rem 0.75rem; border-left: 2px solid var(--blue-light); line-height: 1.5; }
+
+  /* QUESTIONS */
+  #questions { background: var(--black); }
+  .q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .q-card { background: #111; padding: 2rem; display: flex; gap: 1.5rem; border: 1px solid rgba(245,242,235,0.06); transition: border-color 0.3s; }
+  .q-card:hover { border-color: var(--gold); }
+  .q-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--red); flex-shrink: 0; line-height: 1; }
+  .q-card h3 { font-size: 0.98rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .q-card p { font-size: 0.86rem; color: rgba(245,242,235,0.65); line-height: 1.6; }
+
+  /* STARTERS */
+  #starters { background: #0a0a0a; }
+  .starters-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+  .starter-cat { background: #111; border: 1px solid rgba(245,242,235,0.06); padding: 1.75rem; }
+  .starter-cat h3 { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(245,242,235,0.1); }
+  .c-blue { color: var(--blue-light); } .c-gold { color: var(--gold); } .c-red { color: var(--red-light); }
+  .c-green { color: var(--green); } .c-purple { color: #a569bd; } .c-teal { color: #52be80; }
+  .copy-hint { font-size: 0.8rem; color: var(--grey); margin-bottom: 1.5rem; font-style: italic; }
+  .phrase-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+  .phrase-list li { font-family: 'DM Mono', monospace; font-size: 0.76rem; line-height: 1.5; color: rgba(245,242,235,0.76); padding: 0.5rem 0.75rem; background: rgba(255,255,255,0.025); border-left: 2px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.2s; }
+  .phrase-list li:hover { background: rgba(201,168,76,0.07); border-left-color: var(--gold); color: var(--white); }
+  .phrase-list li.copied { border-left-color: var(--green); background: rgba(39,174,96,0.07); }
+
+  /* VOCABULARY */
+  #vocabulary { background: var(--black); }
+  .vocab-tabs { display: flex; gap: 0; margin-bottom: 2.5rem; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .vocab-tab { padding: 0.75rem 1.5rem; font-weight: 600; font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; border: none; background: transparent; color: var(--grey); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s; }
+  .vocab-tab.active { color: var(--white); border-bottom-color: var(--red); }
+  .vocab-tab:hover:not(.active) { color: rgba(245,242,235,0.7); }
+  .vocab-panel { display: none; }
+  .vocab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(270px,1fr)); gap: 1rem; }
+  .vocab-card { background: #111; border: 1px solid rgba(245,242,235,0.07); padding: 1.25rem 1.5rem; transition: border-color 0.2s; }
+  .vocab-card:hover { border-color: rgba(245,242,235,0.2); }
+  .vocab-card .word { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .vocab-card .pos { font-family: 'DM Mono', monospace; font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey); margin-bottom: 0.5rem; }
+  .vocab-card .def { font-size: 0.84rem; color: rgba(245,242,235,0.65); line-height: 1.5; margin-bottom: 0.5rem; }
+  .vocab-card .example { font-size: 0.78rem; color: var(--blue-light); font-style: italic; line-height: 1.5; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 0.5rem; margin-top: 0.5rem; }
+  .vocab-tag { display: inline-block; font-size: 0.63rem; padding: 0.2rem 0.5rem; font-family: 'DM Mono', monospace; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .tag-ri { background: rgba(192,57,43,0.18); color: #e74c3c; }
+  .tag-pv { background: rgba(26,58,92,0.4); color: #5dade2; }
+  .tag-ad { background: rgba(201,168,76,0.18); color: var(--gold); }
+  .tag-an { background: rgba(108,52,131,0.28); color: #a569bd; }
+
+  /* VOCAB QUIZ */
+  #vocab-quiz { background: #0a0a0a; }
+  .vq-modes { display: flex; gap: 0.75rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+  .vq-mode-btn { padding: 0.6rem 1.4rem; font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; border: 1px solid rgba(245,242,235,0.18); background: transparent; color: var(--grey); transition: all 0.2s; }
+  .vq-mode-btn.active { background: var(--red); border-color: var(--red); color: var(--white); }
+  .vq-container { max-width: 720px; }
+  .vq-progress-bar { height: 3px; background: rgba(255,255,255,0.08); margin-bottom: 2.5rem; }
+  .vq-progress-fill { height: 100%; background: linear-gradient(90deg,var(--red),var(--gold)); width: 0%; transition: width 0.4s ease; }
+  .vq-prompt { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--grey); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .vq-word { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .vq-context { font-size: 0.82rem; color: rgba(245,242,235,0.45); font-style: italic; margin-bottom: 2rem; }
+  .vq-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-bottom: 1.5rem; }
+  .vq-opt { background: #111; border: 1px solid rgba(245,242,235,0.1); padding: 0.9rem 1.1rem; cursor: pointer; text-align: left; font-family: 'DM Sans', sans-serif; font-size: 0.86rem; color: var(--white); transition: all 0.2s; line-height: 1.4; }
+  .vq-opt:hover:not(:disabled) { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+  .vq-opt.correct { background: rgba(39,174,96,0.14); border-color: var(--green); }
+  .vq-opt.wrong { background: rgba(192,57,43,0.14); border-color: var(--red); opacity: 0.7; }
+  .vq-feedback { margin-top: 1rem; padding: 0.85rem 1.1rem; font-size: 0.86rem; line-height: 1.6; display: none; border-left: 3px solid; }
+  .vq-feedback.show { display: block; }
+  .vq-feedback.ok { border-color: var(--green); background: rgba(39,174,96,0.07); }
+  .vq-feedback.nope { border-color: var(--red); background: rgba(192,57,43,0.07); }
+  .vq-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
+  .vq-score { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--grey); }
+  #vq-result { display: none; text-align: center; padding: 3rem 0; }
+  #vq-result.show { display: block; }
+  #vq-result h3 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; }
+  #vq-result p { color: rgba(245,242,235,0.65); font-size: 0.92rem; line-height: 1.8; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .score-ring { width: 130px; height: 130px; border-radius: 50%; border: 4px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 2rem; }
+  .score-ring .sn { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--gold); line-height: 1; }
+  .score-ring .sl { font-size: 0.68rem; color: var(--grey); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* FLASHCARDS */
+  .flashcard-wrap { perspective: 1000px; width: 100%; max-width: 520px; height: 210px; margin: 0 auto 2rem; cursor: pointer; }
+  .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s ease; }
+  .flashcard.flipped { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center; }
+  .flashcard-front { background: #111; border: 1px solid rgba(201,168,76,0.25); }
+  .flashcard-back { background: rgba(44,95,138,0.12); border: 1px solid var(--blue-light); transform: rotateY(180deg); }
+  .fc-word { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .fc-pos { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--grey); }
+  .fc-def { font-size: 0.92rem; line-height: 1.6; color: rgba(245,242,235,0.85); margin-bottom: 0.6rem; }
+  .fc-ex { font-size: 0.78rem; font-style: italic; color: var(--blue-light); }
+  .fc-hint { font-size: 0.72rem; color: var(--grey); margin-top: 1rem; }
+  .fc-nav { display: flex; gap: 1rem; justify-content: center; align-items: center; margin-bottom: 2rem; }
+  .fc-counter { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--grey); }
+
+  /* FILL */
+  .fill-sentence { font-size: 1.05rem; line-height: 2.0; margin-bottom: 1.5rem; color: rgba(245,242,235,0.85); }
+  .fill-input { border: none; border-bottom: 2px solid var(--gold); background: transparent; color: var(--white); font-family: 'DM Mono', monospace; font-size: 1rem; padding: 0.2rem 0.5rem; outline: none; width: 170px; text-align: center; transition: border-color 0.2s; }
+  .fill-input.correct { border-color: var(--green); color: var(--green); }
+  .fill-input.wrong { border-color: var(--red); color: var(--red); }
+  .fill-hint { font-size: 0.78rem; color: var(--grey); margin-bottom: 1.5rem; font-style: italic; }
+  #fill-result { display: none; text-align: center; padding: 3rem 0; }
+  #fill-result h3 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; }
+  #fill-result p { color: rgba(245,242,235,0.65); font-size: 0.92rem; line-height: 1.8; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+  /* MEDIATION QUIZ */
+  #quiz { background: #111; }
+  .quiz-container { max-width: 760px; }
+  .quiz-progress { display: flex; gap: 0.5rem; margin-bottom: 2.5rem; }
+  .progress-dot { flex: 1; height: 4px; background: rgba(245,242,235,0.12); transition: background 0.3s; }
+  .progress-dot.done { background: var(--gold); }
+  .progress-dot.current { background: var(--red); }
+  .quiz-question { display: none; animation: fadeIn 0.4s ease; }
+  .quiz-question.active { display: block; }
+  .q-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--grey); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
+  .quiz-question h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; margin-bottom: 2rem; line-height: 1.4; }
+  .quiz-options { display: grid; gap: 0.7rem; }
+  .quiz-opt { background: #0d0d0d; border: 1px solid rgba(245,242,235,0.1); padding: 0.95rem 1.2rem; cursor: pointer; text-align: left; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--white); transition: all 0.2s; display: flex; align-items: center; gap: 1rem; }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+  .quiz-opt.correct { background: rgba(39,174,96,0.14); border-color: var(--green); }
+  .quiz-opt.wrong { background: rgba(192,57,43,0.14); border-color: var(--red); }
+  .opt-letter { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--grey); flex-shrink: 0; width: 24px; height: 24px; border: 1px solid currentColor; display: flex; align-items: center; justify-content: center; }
+  .quiz-opt.correct .opt-letter { border-color: var(--green); color: var(--green); }
+  .quiz-opt.wrong .opt-letter { border-color: var(--red); color: var(--red); }
+  .quiz-feedback { margin-top: 1.5rem; padding: 1rem 1.2rem; font-size: 0.88rem; line-height: 1.6; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct-fb { background: rgba(39,174,96,0.09); border-left: 3px solid var(--green); }
+  .quiz-feedback.wrong-fb { background: rgba(192,57,43,0.09); border-left: 3px solid var(--red); }
+  .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
+  .quiz-score-display { font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--grey); }
+  #quiz-result { display: none; text-align: center; padding: 3rem 0; }
+  #quiz-result.show { display: block; }
+  #quiz-result h3 { font-family: 'Playfair Display', serif; font-size: 2.3rem; margin-bottom: 1rem; }
+  #quiz-result p { color: rgba(245,242,235,0.7); margin-bottom: 2rem; line-height: 1.8; }
+  .score-circle { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 2rem; }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 900; color: var(--gold); line-height: 1; }
+  .score-label { font-size: 0.72rem; color: var(--grey); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* FEEDBACK */
+  #feedback { background: var(--black); }
+  .feedback-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .feedback-intro p { color: rgba(245,242,235,0.68); line-height: 1.8; margin-bottom: 1.5rem; font-size: 0.92rem; }
+  .checklist { list-style: none; }
+  .checklist li { display: flex; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid rgba(245,242,235,0.06); font-size: 0.86rem; color: rgba(245,242,235,0.72); }
+  .checklist li::before { content: '→'; color: var(--gold); font-weight: bold; flex-shrink: 0; }
+  .feedback-panel { background: #111; padding: 2.5rem; border: 1px solid rgba(245,242,235,0.07); }
+  .feedback-panel h3 { font-weight: 600; margin-bottom: 1.5rem; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); }
+  textarea { width: 100%; background: #1a1a1a; border: 1px solid rgba(245,242,235,0.14); color: var(--white); padding: 1.2rem; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; line-height: 1.7; resize: vertical; min-height: 200px; margin-bottom: 1rem; outline: none; transition: border-color 0.2s; }
+  textarea:focus { border-color: var(--gold); }
+  textarea::placeholder { color: rgba(245,242,235,0.28); }
+  .feedback-loading { display: none; text-align: center; padding: 2rem; font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--gold); letter-spacing: 0.15em; }
+  .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(201,168,76,0.3); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 0.75rem; vertical-align: middle; }
+  .feedback-output { background: #1a1a1a; border: 1px solid rgba(201,168,76,0.18); padding: 1.75rem; font-size: 0.88rem; line-height: 1.85; color: rgba(245,242,235,0.82); display: none; }
+  .feedback-output.show { display: block; }
+  .feedback-output h4 { font-weight: 600; color: var(--gold); margin: 1.2rem 0 0.4rem; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .feedback-output h4:first-child { margin-top: 0; }
+
+  /* FOOTER */
+  footer { background: #070707; padding: 3rem 6rem; border-top: 1px solid rgba(201,168,76,0.12); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer p { font-size: 0.78rem; color: var(--grey); }
+  .footer-logo { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 0.95rem; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 1000px) {
+    section, .hero { padding: 5rem 2.5rem; }
+    .what-grid, .q-grid, .feedback-layout { grid-template-columns: 1fr; }
+    .structure-steps { grid-template-columns: 1fr 1fr; }
+    .starters-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    footer { padding: 3rem 2.5rem; }
+    .scroll-hint { left: 2.5rem; }
+  }
+  @media (max-width: 640px) {
+    .structure-steps, .starters-grid, .vq-options { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">All American Boys · Mediation</div>
+  <div class="nav-links">
+    <a href="#what">① Mediation</a>
+    <a href="#structure">② Structure</a>
+    <a href="#questions">③ 4 Questions</a>
+    <a href="#starters">④ Starters</a>
+    <a href="#vocabulary">⑤ Vocabulary</a>
+    <a href="#vocab-quiz">⑥ Vocab Quiz</a>
+    <a href="#quiz">⑦ Mediation Quiz</a>
+    <a href="#feedback">⑧ Feedback</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-tag">Year 12 English · NRW Gymnasium · GK</div>
+  <h1>Mastering<span>Mediation</span></h1>
+  <p class="hero-sub">Police Violence, Structural Racism &amp; <em>All American Boys</em> — everything you need to write a strong mediation email to Tyler.</p>
+  <div class="section-nav">
+    <a href="#what">① What is Mediation?</a>
+    <a href="#structure">② Structure</a>
+    <a href="#questions">③ 4 Questions</a>
+    <a href="#starters">④ Sentence Starters</a>
+    <a href="#vocabulary">⑤ Vocabulary</a>
+    <a href="#vocab-quiz">⑥ Vocab Quiz</a>
+    <a href="#quiz">⑦ Mediation Quiz</a>
+    <a href="#feedback">⑧ Feedback Partner</a>
+  </div>
+  <div class="hero-cta">
+    <a href="#what" class="btn btn-primary">Start Learning</a>
+    <a href="#vocab-quiz" class="btn btn-outline">Vocab Quiz</a>
+    <a href="#feedback" class="btn btn-gold">Get Feedback</a>
+  </div>
+  <div class="scroll-hint">Scroll to explore</div>
+</section>
+
+<!-- ① WHAT IS MEDIATION -->
+<section id="what">
+  <div class="section-label">Section 01</div>
+  <h2>What is a Mediation?</h2>
+  <div class="divider"></div>
+  <div class="what-grid fade-up">
+    <div>
+      <div class="definition-box">
+        <p>A mediation transfers the <strong>key content</strong> of a source text into another language for a <strong>specific reader or listener</strong>. You do <strong>NOT</strong> translate word for word. You select relevant information, <strong>adapt the register</strong>, and add context where necessary so that your target reader can understand.</p>
+      </div>
+      <br/>
+      <p style="color:rgba(245,242,235,0.62);font-size:0.88rem;line-height:1.8;">In this task, you are writing to <strong style="color:var(--white)">Tyler</strong> — your American exchange student — explaining key information from a <em>German</em> article about George Floyd's death. Tyler is a teenager, not a teacher: your language should feel like a real email to a friend.</p>
+    </div>
+    <table class="compare-table">
+      <thead><tr><th>✗ NOT a mediation</th><th>✓ IS a mediation</th></tr></thead>
+      <tbody>
+        <tr><td>A word-for-word translation</td><td>A purposeful, selective summary in the target language</td></tr>
+        <tr><td>Copying the structure of the source text</td><td>Organising information for the target reader's needs</td></tr>
+        <tr><td>Ignoring who will read your text</td><td>Always writing with a specific addressee and purpose in mind</td></tr>
+        <tr><td>Translating every detail</td><td>Choosing what is relevant and leaving out what is not</td></tr>
+        <tr><td>An essay with formal academic language</td><td>The right register — here: a friendly, semi-formal email</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ② STRUCTURE -->
+<section id="structure">
+  <div class="section-label">Section 02</div>
+  <h2>Structure of a Mediation Email</h2>
+  <div class="divider"></div>
+  <div class="structure-steps fade-up">
+    <div class="step-card"><div class="step-num">1</div><h3>Opening</h3><p>Introduce the source text and explain why you are writing. Name the article and its origin.</p><div class="step-example">"I recently read a German article by the bpb about the death of George Floyd…"</div></div>
+    <div class="step-card"><div class="step-num">2</div><h3>Main Body</h3><p>Transfer key information in your own words — organised by topic. Most important points first.</p><div class="step-example">"According to the article, Floyd died on 25 May 2020 after officer Chauvin knelt on his neck for nine minutes."</div></div>
+    <div class="step-card"><div class="step-num">3</div><h3>Source Signals</h3><p>Always make clear when you are referring to the article. Never leave the reader guessing where the information comes from.</p><div class="step-example">"The article also highlights… / The text points out… / According to the article…"</div></div>
+    <div class="step-card"><div class="step-num">4</div><h3>Closing</h3><p>Connect the topic to Tyler's perspective, to <em>All American Boys</em>, or invite a response.</p><div class="step-example">"Do you think things have actually changed since Floyd's death? I'd love to hear your take."</div></div>
+  </div>
+</section>
+
+<!-- ③ FOUR QUESTIONS -->
+<section id="questions">
+  <div class="section-label">Section 03</div>
+  <h2>Before You Write: 4 Key Questions</h2>
+  <div class="divider"></div>
+  <div class="q-grid fade-up">
+    <div class="q-card"><div class="q-num">1</div><div><h3>Who is my addressee?</h3><p>Tyler is an American teenager. He probably knows about George Floyd and BLM — but not about the German bpb article or the statistical comparison with Germany. Adjust your explanations accordingly.</p></div></div>
+    <div class="q-card"><div class="q-num">2</div><div><h3>What is my purpose?</h3><p>To inform Tyler about the key content of the German article. You are not arguing, not persuading — you are transferring information in a clear and reader-friendly way.</p></div></div>
+    <div class="q-card"><div class="q-num">3</div><div><h3>What does my reader already know?</h3><p>Tyler is American — he likely knows who Floyd was and about BLM. Focus on what the <em>German article</em> specifically says, especially the statistics and political developments.</p></div></div>
+    <div class="q-card"><div class="q-num">4</div><div><h3>What is the most important information?</h3><p>Choose only 4–5 key points. Select: the incident → legal outcome → BLM context → statistics/structural racism → current political situation (Trump/reforms).</p></div></div>
+  </div>
+</section>
+
+<!-- ④ SENTENCE STARTERS -->
+<section id="starters">
+  <div class="section-label">Section 04</div>
+  <h2>Useful Sentence Starters</h2>
+  <div class="divider"></div>
+  <p class="copy-hint">💡 Click any phrase to copy it to your clipboard.</p>
+  <div class="starters-grid fade-up">
+    <div class="starter-cat">
+      <h3 class="c-blue">📌 Introducing the Source</h3>
+      <ul class="phrase-list">
+        <li onclick="copyPhrase(this)">I recently read a German article by the bpb about…</li>
+        <li onclick="copyPhrase(this)">I came across a German article published by the bpb, which…</li>
+        <li onclick="copyPhrase(this)">The article I want to tell you about was written by Germany's Federal Agency for Civic Education and deals with…</li>
+        <li onclick="copyPhrase(this)">Since we've been discussing All American Boys, I thought you might find this interesting:…</li>
+      </ul>
+    </div>
+    <div class="starter-cat">
+      <h3 class="c-gold">📎 Signalling the Source</h3>
+      <ul class="phrase-list">
+        <li onclick="copyPhrase(this)">According to the article, …</li>
+        <li onclick="copyPhrase(this)">The text points out that …</li>
+        <li onclick="copyPhrase(this)">The article also highlights …</li>
+        <li onclick="copyPhrase(this)">As the author explains, …</li>
+        <li onclick="copyPhrase(this)">The text further states that …</li>
+        <li onclick="copyPhrase(this)">One striking fact mentioned in the article is that …</li>
+      </ul>
+    </div>
+    <div class="starter-cat">
+      <h3 class="c-red">📊 Presenting Statistics &amp; Facts</h3>
+      <ul class="phrase-list">
+        <li onclick="copyPhrase(this)">The article mentions that approximately … people …</li>
+        <li onclick="copyPhrase(this)">What struck me most was the statistic that …</li>
+        <li onclick="copyPhrase(this)">To put this into perspective, …</li>
+        <li onclick="copyPhrase(this)">In comparison to Germany, where only …, the US figure is alarming.</li>
+        <li onclick="copyPhrase(this)">Although Black Americans make up only about 13% of the population, they account for …</li>
+      </ul>
+    </div>
+    <div class="starter-cat">
+      <h3 class="c-green">🔗 Structuring &amp; Linking Ideas</h3>
+      <ul class="phrase-list">
+        <li onclick="copyPhrase(this)">In addition to this, the article also mentions that …</li>
+        <li onclick="copyPhrase(this)">Another important point is that …</li>
+        <li onclick="copyPhrase(this)">What is particularly relevant here is …</li>
+        <li onclick="copyPhrase(this)">Furthermore, the text draws attention to …</li>
+        <li onclick="copyPhrase(this)">This is closely connected to …</li>
+        <li onclick="copyPhrase(this)">Building on this, …</li>
+      </ul>
+    </div>
+    <div class="starter-cat">
+      <h3 class="c-purple">🔚 Closing the Email</h3>
+      <ul class="phrase-list">
+        <li onclick="copyPhrase(this)">Reading this article really made me think about …</li>
+        <li onclick="copyPhrase(this)">I found this particularly relevant to All American Boys because …</li>
+        <li onclick="copyPhrase(this)">Do you think things have actually changed since Floyd's death?</li>
+        <li onclick="copyPhrase(this)">I'd love to hear your perspective on this.</li>
+        <li onclick="copyPhrase(this)">What's your take on the situation in the US today?</li>
+        <li onclick="copyPhrase(this)">Let me know what you think — I'd be really interested in your view.</li>
+      </ul>
+    </div>
+    <div class="starter-cat">
+      <h3 class="c-teal">⚠️ Phrases to Avoid</h3>
+      <ul class="phrase-list" style="pointer-events:none;">
+        <li style="color:rgba(220,80,60,0.85);border-left-color:var(--red);">✗ "It can be argued that…" → too academic</li>
+        <li style="color:rgba(220,80,60,0.85);border-left-color:var(--red);">✗ "In conclusion, one can say…" → essay style</li>
+        <li style="color:rgba(220,80,60,0.85);border-left-color:var(--red);">✗ "The text is about…" → too vague, no source signal</li>
+        <li style="color:rgba(220,80,60,0.85);border-left-color:var(--red);">✗ Starting main body with "I think…" → adds unsupported opinion</li>
+        <li style="color:rgba(220,80,60,0.85);border-left-color:var(--red);">✗ Copying sentences from the German text directly</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ VOCABULARY -->
+<section id="vocabulary">
+  <div class="section-label">Section 05</div>
+  <h2>Key Vocabulary</h2>
+  <div class="divider"></div>
+  <p style="color:rgba(245,242,235,0.55);font-size:0.88rem;margin-bottom:2rem;">Browse vocabulary by theme. Use these words actively in your mediation!</p>
+  <div class="vocab-tabs">
+    <button class="vocab-tab active" onclick="showVocab('racial-injustice',this)">Racial Injustice</button>
+    <button class="vocab-tab" onclick="showVocab('police-violence',this)">Police Violence</button>
+    <button class="vocab-tab" onclick="showVocab('american-dream',this)">American Dream</button>
+    <button class="vocab-tab" onclick="showVocab('american-nightmare',this)">American Nightmare</button>
+  </div>
+  <div class="vocab-panel active" id="vocab-racial-injustice">
+    <div class="vocab-grid">
+      <div class="vocab-card"><div class="vocab-tag tag-ri">Racial Injustice</div><div class="word">structural racism</div><div class="pos">noun phrase</div><div class="def">Inequalities embedded in social institutions — systemic disadvantage based on race, not just individual prejudice.</div><div class="example">"Structural racism means Black Americans face worse outcomes in education, income, and justice."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-ri">Racial Injustice</div><div class="word">systemic inequality</div><div class="pos">noun phrase</div><div class="def">Unequal treatment or outcomes built into the systems of a society.</div><div class="example">"The statistics reflect systemic inequality: Black men are five times more likely to be imprisoned."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-ri">Racial Injustice</div><div class="word">disproportionate</div><div class="pos">adjective</div><div class="def">Too large or too small in relation to something else; out of proportion.</div><div class="example">"Black Americans are disproportionately affected — 25% of victims despite being 13% of the population."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-ri">Racial Injustice</div><div class="word">racial profiling</div><div class="pos">noun phrase</div><div class="def">Using race as a basis for suspecting someone of a crime, often by law enforcement.</div><div class="example">"Racial profiling means Black men are stopped and searched at far higher rates."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-ri">Racial Injustice</div><div class="word">discrimination</div><div class="pos">noun</div><div class="def">Unjust treatment of a person based on their race, gender, or other identity.</div><div class="example">"The article highlights ongoing discrimination in the American justice system."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-ri">Racial Injustice</div><div class="word">incarceration rate</div><div class="pos">noun phrase</div><div class="def">The proportion of a population that is imprisoned.</div><div class="example">"The incarceration rate for Black men is five times higher than for white men in the US."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-ri">Racial Injustice</div><div class="word">to marginalise</div><div class="pos">verb</div><div class="def">To treat a person or group as insignificant or excluded from power.</div><div class="example">"For generations, Black communities have been marginalised by policies and institutions."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-ri">Racial Injustice</div><div class="word">inequality</div><div class="pos">noun</div><div class="def">Lack of equality, especially in rights, opportunities, or treatment.</div><div class="example">"Deep inequality in education and income remains a core challenge for Black Americans."</div></div>
+    </div>
+  </div>
+  <div class="vocab-panel" id="vocab-police-violence">
+    <div class="vocab-grid">
+      <div class="vocab-card"><div class="vocab-tag tag-pv">Police Violence</div><div class="word">use of force</div><div class="pos">noun phrase</div><div class="def">Physical force applied by law enforcement officers in the course of their duties.</div><div class="example">"In Germany, only 13 people per year die as a result of police use of force."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-pv">Police Violence</div><div class="word">police brutality</div><div class="pos">noun phrase</div><div class="def">Excessive, unlawful force used by police officers.</div><div class="example">"Floyd's death reignited the national debate about police brutality in the USA."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-pv">Police Violence</div><div class="word">accountability</div><div class="pos">noun</div><div class="def">The fact of being responsible for one's actions and having to explain them.</div><div class="example">"Biden's 2022 executive order aimed to increase police accountability."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-pv">Police Violence</div><div class="word">bystander</div><div class="pos">noun</div><div class="def">A person present at an event who does not take part in it.</div><div class="example">"The incident was filmed by a bystander, whose video spread globally within hours."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-pv">Police Violence</div><div class="word">verdict</div><div class="pos">noun</div><div class="def">A decision on a legal question, especially in a criminal trial.</div><div class="example">"The guilty verdict against Chauvin was described as a landmark moment in US legal history."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-pv">Police Violence</div><div class="word">misconduct</div><div class="pos">noun</div><div class="def">Unacceptable or improper behaviour, especially by an official.</div><div class="example">"Chauvin was found guilty of multiple charges related to his misconduct."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-pv">Police Violence</div><div class="word">reform</div><div class="pos">noun / verb</div><div class="def">Change aimed at improving a law, institution, or social issue.</div><div class="example">"Police reform has been central to the political debate since Floyd's death."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-pv">Police Violence</div><div class="word">to convict</div><div class="pos">verb</div><div class="def">To declare someone guilty of a criminal offence in court.</div><div class="example">"Chauvin was convicted of murder in April 2021 and sentenced to 22.5 years."</div></div>
+    </div>
+  </div>
+  <div class="vocab-panel" id="vocab-american-dream">
+    <div class="vocab-grid">
+      <div class="vocab-card"><div class="vocab-tag tag-ad">American Dream</div><div class="word">equal opportunity</div><div class="pos">noun phrase</div><div class="def">The principle that every person has the same chance to succeed, regardless of background.</div><div class="example">"The American Dream is built on the ideal of equal opportunity for all citizens."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-ad">American Dream</div><div class="word">upward mobility</div><div class="pos">noun phrase</div><div class="def">The ability to move to a higher social or economic position through hard work.</div><div class="example">"Upward mobility — a better life through effort — once defined the American Dream."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-ad">American Dream</div><div class="word">meritocracy</div><div class="pos">noun</div><div class="def">A system in which people advance based on talent and achievement rather than wealth.</div><div class="example">"The myth of meritocracy suggests that anyone can succeed if they work hard enough."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-ad">American Dream</div><div class="word">prosperity</div><div class="pos">noun</div><div class="def">The state of being successful and wealthy.</div><div class="example">"The promise of prosperity has drawn generations of immigrants to the United States."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-ad">American Dream</div><div class="word">freedom</div><div class="pos">noun</div><div class="def">The power to act, speak, or think without external restriction.</div><div class="example">"Freedom — political and personal — is at the heart of the American national identity."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-ad">American Dream</div><div class="word">aspiration</div><div class="pos">noun</div><div class="def">A hope or ambition to achieve something.</div><div class="example">"Quinn's aspirations in All American Boys reflect a wider belief in what America can be."</div></div>
+    </div>
+  </div>
+  <div class="vocab-panel" id="vocab-american-nightmare">
+    <div class="vocab-grid">
+      <div class="vocab-card"><div class="vocab-tag tag-an">American Nightmare</div><div class="word">broken promise</div><div class="pos">noun phrase</div><div class="def">A commitment that was made but not kept.</div><div class="example">"For many Black Americans, the gap between the Dream and reality represents a broken promise."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-an">American Nightmare</div><div class="word">racial gap</div><div class="pos">noun phrase</div><div class="def">A measurable difference in outcomes between racial groups.</div><div class="example">"The racial gap in income and education has widened rather than narrowed in recent decades."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-an">American Nightmare</div><div class="word">mass incarceration</div><div class="pos">noun phrase</div><div class="def">The large-scale imprisonment of a population, particularly in the US criminal justice system.</div><div class="example">"Mass incarceration disproportionately affects Black men, making the Dream inaccessible to many."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-an">American Nightmare</div><div class="word">poverty cycle</div><div class="pos">noun phrase</div><div class="def">A situation in which poverty is self-perpetuating across generations.</div><div class="example">"Structural racism traps many Black families in a poverty cycle that is almost impossible to escape."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-an">American Nightmare</div><div class="word">disillusionment</div><div class="pos">noun</div><div class="def">Disappointment from discovering something is not as good as believed.</div><div class="example">"Rashad's experience in All American Boys represents the disillusionment of a generation promised equality."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-an">American Nightmare</div><div class="word">hypocrisy</div><div class="pos">noun</div><div class="def">Claiming standards or beliefs that one's own behaviour does not match.</div><div class="example">"The hypocrisy of a nation founded on liberty while perpetuating racial inequality is a central theme."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-an">American Nightmare</div><div class="word">systemic failure</div><div class="pos">noun phrase</div><div class="def">A failure built into the system itself, not just individual mistakes.</div><div class="example">"George Floyd's death was not an isolated incident but a symptom of systemic failure."</div></div>
+      <div class="vocab-card"><div class="vocab-tag tag-an">American Nightmare</div><div class="word">to be silenced</div><div class="pos">verb phrase (passive)</div><div class="def">To be prevented from speaking or having one's voice heard.</div><div class="example">"The novel explores how Black voices have historically been silenced in American public life."</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑥ VOCABULARY QUIZ -->
+<section id="vocab-quiz">
+  <div class="section-label">Section 06</div>
+  <h2>Vocabulary Quiz</h2>
+  <div class="divider"></div>
+  <p style="color:rgba(245,242,235,0.55);font-size:0.88rem;margin-bottom:2rem;">Three modes to practise. Choose your challenge!</p>
+  <div class="vq-modes">
+    <button class="vq-mode-btn active" onclick="setVQMode('mcq',this)">① Multiple Choice</button>
+    <button class="vq-mode-btn" onclick="setVQMode('flash',this)">② Flashcards</button>
+    <button class="vq-mode-btn" onclick="setVQMode('fill',this)">③ Fill in the Gap</button>
+  </div>
+  <div class="vq-container">
+    <div class="vq-progress-bar"><div class="vq-progress-fill" id="vq-fill-bar"></div></div>
+    <!-- MCQ -->
+    <div id="vq-mcq-section">
+      <div id="vq-mcq-questions"></div>
+      <div class="vq-feedback" id="vq-fb"></div>
+      <div class="vq-nav" id="vq-mcq-nav">
+        <div class="vq-score" id="vq-score">Score: 0 / 12</div>
+        <button class="btn btn-outline" id="vq-next" onclick="vqNext()" disabled>Next →</button>
+      </div>
+      <div id="vq-result">
+        <div class="score-ring"><div class="sn" id="vq-final">0</div><div class="sl">out of 12</div></div>
+        <h3 id="vq-result-title">Well done!</h3>
+        <p id="vq-result-msg"></p>
+        <button class="btn btn-primary" onclick="resetVQ()">Try Again</button>
+      </div>
+    </div>
+    <!-- FLASHCARD -->
+    <div id="vq-flash-section" style="display:none;">
+      <div class="flashcard-wrap" onclick="flipCard()">
+        <div class="flashcard" id="flashcard">
+          <div class="flashcard-front"><div class="fc-word" id="fc-word">—</div><div class="fc-pos" id="fc-pos">—</div><div class="fc-hint">Click to reveal definition</div></div>
+          <div class="flashcard-back"><div class="fc-def" id="fc-def">—</div><div class="fc-ex" id="fc-ex">—</div></div>
+        </div>
+      </div>
+      <div class="fc-nav">
+        <button class="btn btn-outline" onclick="fcMove(-1)">← Prev</button>
+        <div class="fc-counter" id="fc-counter">1 / 20</div>
+        <button class="btn btn-outline" onclick="fcMove(1)">Next →</button>
+      </div>
+    </div>
+    <!-- FILL -->
+    <div id="vq-fill-section" style="display:none;">
+      <div id="fill-question-wrap"></div>
+      <div class="vq-feedback" id="fill-fb"></div>
+      <div class="vq-nav" id="fill-nav">
+        <div class="vq-score" id="fill-score">Score: 0 / 8</div>
+        <button class="btn btn-outline" id="fill-next" onclick="fillNext()">Check Answer</button>
+      </div>
+      <div id="fill-result">
+        <div class="score-ring"><div class="sn" id="fill-final">0</div><div class="sl">out of 8</div></div>
+        <h3 id="fill-result-title">Nice work!</h3>
+        <p id="fill-result-msg"></p>
+        <button class="btn btn-primary" onclick="resetFill()">Try Again</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑦ MEDIATION QUIZ -->
+<section id="quiz">
+  <div class="section-label">Section 07</div>
+  <h2>Mediation Knowledge Quiz</h2>
+  <div class="divider"></div>
+  <p style="color:rgba(245,242,235,0.55);margin-bottom:2.5rem;font-size:0.88rem;">10 questions on mediation structure, key facts, and language. Click an answer to proceed.</p>
+  <div class="quiz-container">
+    <div class="quiz-progress" id="quiz-progress"></div>
+    <div class="quiz-question active" data-q="0"><div class="q-label">Question 1 of 10</div><h3>What is the main purpose of a mediation?</h3><div class="quiz-options"><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">A</span>To translate a text word for word into another language</button><button class="quiz-opt" onclick="answer(this,true)"><span class="opt-letter">B</span>To transfer key information into another language for a specific reader, adapting register and selecting relevant content</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">C</span>To summarise a text in the same language as the original</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">D</span>To write a formal essay about a topic in the target language</button></div><div class="quiz-feedback correct-fb">✓ Correct! A mediation selects and transfers relevant content for a specific reader — it is NOT a translation.</div><div class="quiz-feedback wrong-fb">✗ Not quite. A mediation is NOT a word-for-word translation. It means selecting, adapting, and transferring key content for a specific reader.</div></div>
+    <div class="quiz-question" data-q="1"><div class="q-label">Question 2 of 10</div><h3>Which phrase best "signals the source" in a mediation email?</h3><div class="quiz-options"><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">A</span>"In my opinion, Floyd was treated unjustly because…"</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">B</span>"It is a well-known fact that racism exists in the USA."</button><button class="quiz-opt" onclick="answer(this,true)"><span class="opt-letter">C</span>"According to the article, around 1,000 people are killed by police in the USA every year."</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">D</span>"George Floyd died and it was very sad."</button></div><div class="quiz-feedback correct-fb">✓ Exactly! "According to the article…" clearly signals that the information comes from the source text.</div><div class="quiz-feedback wrong-fb">✗ "According to the article…" or "The text points out…" are the correct source-signalling patterns.</div></div>
+    <div class="quiz-question" data-q="2"><div class="q-label">Question 3 of 10</div><h3>How long did Derek Chauvin kneel on George Floyd's neck?</h3><div class="quiz-options"><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">A</span>About 3 minutes</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">B</span>About 6 minutes</button><button class="quiz-opt" onclick="answer(this,true)"><span class="opt-letter">C</span>About 9 minutes</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">D</span>About 15 minutes</button></div><div class="quiz-feedback correct-fb">✓ Correct. Chauvin knelt on Floyd's neck for approximately 9 minutes — a key fact for your mediation.</div><div class="quiz-feedback wrong-fb">✗ Chauvin knelt on Floyd's neck for approximately 9 minutes. This is an important specific detail.</div></div>
+    <div class="quiz-question" data-q="3"><div class="q-label">Question 4 of 10</div><h3>What percentage of people killed by US police in 2022 were Black Americans?</h3><div class="quiz-options"><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">A</span>About 13%</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">B</span>About 10%</button><button class="quiz-opt" onclick="answer(this,true)"><span class="opt-letter">C</span>About 25%</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">D</span>About 40%</button></div><div class="quiz-feedback correct-fb">✓ Correct! Black Americans are ~13% of the population but ~25% of police killings — a key disproportionality statistic.</div><div class="quiz-feedback wrong-fb">✗ The key stat: Black Americans are ~13% of the population but ~25% of those killed by police in 2022.</div></div>
+    <div class="quiz-question" data-q="4"><div class="q-label">Question 5 of 10</div><h3>Which register is appropriate for the email to Tyler?</h3><div class="quiz-options"><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">A</span>Highly formal — as if writing to a professor</button><button class="quiz-opt" onclick="answer(this,true)"><span class="opt-letter">B</span>Semi-formal to informal — friendly and personal, like a real email to a classmate</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">C</span>Very informal — using slang and emojis throughout</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">D</span>Academic essay style with hedging language like "It can be argued that…"</button></div><div class="quiz-feedback correct-fb">✓ Right! Tyler is your peer — use a friendly, personal tone, not an academic essay style.</div><div class="quiz-feedback wrong-fb">✗ Avoid essay language. Tyler is a friend — your email should feel personal and semi-formal.</div></div>
+    <div class="quiz-question" data-q="5"><div class="q-label">Question 6 of 10</div><h3>What is the required word count for this mediation task?</h3><div class="quiz-options"><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">A</span>Exactly 150 words</button><button class="quiz-opt" onclick="answer(this,true)"><span class="opt-letter">B</span>Approximately 180–220 words</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">C</span>At least 300 words</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">D</span>There is no word limit</button></div><div class="quiz-feedback correct-fb">✓ Correct! Aim for 180–220 words. Significantly over or under can affect your mark.</div><div class="quiz-feedback wrong-fb">✗ The task requires approximately 180–220 words.</div></div>
+    <div class="quiz-question" data-q="6"><div class="q-label">Question 7 of 10</div><h3>What does "structural racism" refer to?</h3><div class="quiz-options"><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">A</span>Individual acts of racial hatred by police officers</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">B</span>Only racism that occurs in schools</button><button class="quiz-opt" onclick="answer(this,true)"><span class="opt-letter">C</span>Systemic inequalities in income, education, and justice that disproportionately affect Black Americans</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">D</span>Racism that is officially supported by US law</button></div><div class="quiz-feedback correct-fb">✓ Correct! Structural racism describes inequalities built into institutions — income gaps, worse schools, five times higher incarceration rates.</div><div class="quiz-feedback wrong-fb">✗ Structural racism is about systemic inequalities in institutions — not just individual acts of prejudice.</div></div>
+    <div class="quiz-question" data-q="7"><div class="q-label">Question 8 of 10</div><h3>How many years was Chauvin sentenced to in 2021 at state level?</h3><div class="quiz-options"><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">A</span>10 years</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">B</span>15 years</button><button class="quiz-opt" onclick="answer(this,true)"><span class="opt-letter">C</span>22.5 years</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">D</span>30 years</button></div><div class="quiz-feedback correct-fb">✓ Correct! 22.5 years — the longest sentence ever given to a police officer in Minnesota.</div><div class="quiz-feedback wrong-fb">✗ Chauvin was sentenced to 22.5 years in 2021, the longest sentence ever for a Minnesota police officer.</div></div>
+    <div class="quiz-question" data-q="8"><div class="q-label">Question 9 of 10</div><h3>Which of the following is a common mistake to AVOID in a mediation?</h3><div class="quiz-options"><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">A</span>Starting with a friendly greeting to Tyler</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">B</span>Using source-signalling phrases like "According to the article…"</button><button class="quiz-opt" onclick="answer(this,true)"><span class="opt-letter">C</span>Adding your own opinions and arguments not supported by the article</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">D</span>Connecting the content to All American Boys in the closing</button></div><div class="quiz-feedback correct-fb">✓ Right! In a mediation, content should stay close to the source. Personal opinions without textual basis go beyond the task.</div><div class="quiz-feedback wrong-fb">✗ Adding unsupported personal opinions is a classic mistake. Transfer the article's information — save personal reaction for a brief closing only.</div></div>
+    <div class="quiz-question" data-q="9"><div class="q-label">Question 10 of 10</div><h3>What happened to Biden's police reform programme after Trump took office in 2025?</h3><div class="quiz-options"><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">A</span>It was extended and expanded across all US states</button><button class="quiz-opt" onclick="answer(this,true)"><span class="opt-letter">B</span>Many reform programmes, including diversity initiatives, were scrapped</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">C</span>It remained unchanged and continued under Trump</button><button class="quiz-opt" onclick="answer(this,false)"><span class="opt-letter">D</span>The article does not mention Trump at all</button></div><div class="quiz-feedback correct-fb">✓ Correct! Trump abolished diversity programmes in early 2025, threatening Biden-era police reforms.</div><div class="quiz-feedback wrong-fb">✗ Trump abolished diversity programmes after taking office in January 2025, putting Biden's 2022 reforms at risk.</div></div>
+    <div class="quiz-nav" id="quiz-nav-row">
+      <div class="quiz-score-display" id="score-display">Score: 0 / 10</div>
+      <button class="btn btn-outline" id="next-btn" onclick="nextQuestion()" disabled>Next Question →</button>
+    </div>
+    <div id="quiz-result">
+      <div class="score-circle"><div class="score-num" id="final-score">0</div><div class="score-label">out of 10</div></div>
+      <h3 id="result-title">Well done!</h3><p id="result-msg"></p>
+      <button class="btn btn-primary" onclick="resetQuiz()">Try Again</button>
+    </div>
+  </div>
+</section>
+
+<!-- ⑧ FEEDBACK PARTNER -->
+<section id="feedback">
+  <div class="section-label">Section 08</div>
+  <h2>Feedback Partner</h2>
+  <div class="divider"></div>
+  <div class="feedback-layout">
+    <div class="feedback-intro fade-up">
+      <p>Paste your mediation email below and receive structured feedback based on the NRW Grundkurs criteria.</p>
+      <ul class="checklist">
+        <li>Task fulfilment — have you covered the key content points?</li>
+        <li>Register — is your tone appropriate for an email to Tyler?</li>
+        <li>Source signals — have you referenced the article correctly?</li>
+        <li>Language accuracy — grammar, vocabulary, tense use</li>
+        <li>Structure — opening, main body, closing</li>
+        <li>Word count — are you within the 180–220 word range?</li>
+      </ul>
+      <br/>
+      <p style="font-size:0.82rem;color:rgba(245,242,235,0.35);">Your text is not stored. Use this tool as a learning aid to improve your draft — not as a replacement for your own proofreading.</p>
+    </div>
+    <div class="feedback-panel">
+      <h3>Your Mediation Email</h3>
+      <textarea id="student-text" placeholder="Paste your email to Tyler here (approx. 180–220 words)…"></textarea>
+      <button class="btn btn-primary" onclick="getFeedback()" id="feedback-btn" style="width:100%;">Get Feedback →</button>
+      <div class="feedback-loading" id="feedback-loading"><span class="spinner"></span>ANALYSING YOUR TEXT…</div>
+      <div class="feedback-output" id="feedback-output"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div><div class="footer-logo">All American Boys · Mediation</div><p style="margin-top:0.5rem;">Year 12 English · NRW Gymnasium · Source: bpb, "Der Tod von George Floyd" (20.05.2025)</p></div>
+  <p>Created for classroom use · Not for commercial distribution</p>
+</footer>
+
+<script>
+// ══════════════════════════════════════
+// COPY PHRASE
+// ══════════════════════════════════════
+function copyPhrase(el) {
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    el.classList.add('copied');
+    setTimeout(() => el.classList.remove('copied'), 1500);
+  }).catch(() => {});
+}
+
+// ══════════════════════════════════════
+// VOCABULARY TABS
+// ══════════════════════════════════════
+function showVocab(id, btn) {
+  document.querySelectorAll('.vocab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.vocab-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('vocab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ══════════════════════════════════════
+// VOCAB DATA
+// ══════════════════════════════════════
+const vocabData = [
+  { word:'structural racism', pos:'noun phrase', def:'Inequalities embedded in social institutions — systemic disadvantage based on race.', ex:'"Structural racism means Black Americans face worse outcomes in education, income, and justice."', theme:'Racial Injustice' },
+  { word:'disproportionate', pos:'adjective', def:'Too large or small in relation to something else; out of proportion.', ex:'"Black Americans are disproportionately affected by police violence."', theme:'Racial Injustice' },
+  { word:'systemic inequality', pos:'noun phrase', def:'Unequal treatment built into the systems of a society.', ex:'"The statistics reflect systemic inequality in the American justice system."', theme:'Racial Injustice' },
+  { word:'incarceration rate', pos:'noun phrase', def:'The proportion of a population that is imprisoned.', ex:'"The incarceration rate for Black men is five times higher than for white men."', theme:'Racial Injustice' },
+  { word:'to marginalise', pos:'verb', def:'To treat a person or group as insignificant or excluded from power.', ex:'"For generations, Black communities have been marginalised by policies and institutions."', theme:'Racial Injustice' },
+  { word:'racial profiling', pos:'noun phrase', def:'Using race as a basis for suspecting someone of a crime.', ex:'"Racial profiling means Black men are stopped and searched at far higher rates."', theme:'Racial Injustice' },
+  { word:'police brutality', pos:'noun phrase', def:'Excessive, unlawful force used by police officers.', ex:'"Floyd\'s death reignited the debate about police brutality."', theme:'Police Violence' },
+  { word:'accountability', pos:'noun', def:'Being responsible for one\'s actions and having to explain them.', ex:'"Biden\'s 2022 executive order aimed to increase police accountability."', theme:'Police Violence' },
+  { word:'verdict', pos:'noun', def:'A decision on a legal question, especially in a criminal trial.', ex:'"The guilty verdict against Chauvin was described as a landmark moment."', theme:'Police Violence' },
+  { word:'to convict', pos:'verb', def:'To declare someone guilty of a criminal offence in court.', ex:'"Chauvin was convicted of murder in April 2021."', theme:'Police Violence' },
+  { word:'reform', pos:'noun/verb', def:'Change aimed at improving a law, institution, or social issue.', ex:'"Police reform has been central to the political debate since 2020."', theme:'Police Violence' },
+  { word:'misconduct', pos:'noun', def:'Unacceptable or improper behaviour, especially by an official.', ex:'"Chauvin was found guilty of multiple charges related to his misconduct."', theme:'Police Violence' },
+  { word:'equal opportunity', pos:'noun phrase', def:'The principle that every person has the same chance to succeed.', ex:'"The American Dream is built on the ideal of equal opportunity for all."', theme:'American Dream' },
+  { word:'upward mobility', pos:'noun phrase', def:'The ability to move to a higher social position through hard work.', ex:'"Upward mobility — a better life through effort — defined the American Dream."', theme:'American Dream' },
+  { word:'meritocracy', pos:'noun', def:'A system in which people advance based on talent and effort, not wealth.', ex:'"The myth of meritocracy suggests that anyone can succeed if they work hard enough."', theme:'American Dream' },
+  { word:'aspiration', pos:'noun', def:'A hope or ambition to achieve something.', ex:'"Quinn\'s aspirations in All American Boys reflect a belief in what America can be."', theme:'American Dream' },
+  { word:'disillusionment', pos:'noun', def:'Disappointment from discovering something is not as good as believed.', ex:'"Rashad\'s experience represents the disillusionment of a generation promised equality."', theme:'American Nightmare' },
+  { word:'mass incarceration', pos:'noun phrase', def:'The large-scale imprisonment of a population, especially in the US.', ex:'"Mass incarceration disproportionately affects Black men."', theme:'American Nightmare' },
+  { word:'hypocrisy', pos:'noun', def:'Claiming standards one\'s own behaviour does not match.', ex:'"The hypocrisy of a nation founded on liberty while perpetuating racial inequality is a central theme."', theme:'American Nightmare' },
+  { word:'systemic failure', pos:'noun phrase', def:'A failure built into the system itself, not just individual mistakes.', ex:'"George Floyd\'s death was not an isolated incident but a symptom of systemic failure."', theme:'American Nightmare' },
+  { word:'poverty cycle', pos:'noun phrase', def:'A situation in which poverty is self-perpetuating across generations.', ex:'"Structural racism traps many families in a poverty cycle that is hard to escape."', theme:'American Nightmare' },
+  { word:'broken promise', pos:'noun phrase', def:'A commitment that was made but not kept.', ex:'"For many Black Americans, the gap between the Dream and reality is a broken promise."', theme:'American Nightmare' },
+];
+
+function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+// ══════════════════════════════════════
+// MCQ VOCAB
+// ══════════════════════════════════════
+let vqQ=0,vqScore=0,vqAnswered=false,vqShuffled=[],vqTotal=12;
+
+function initVQ(){
+  vqQ=0;vqScore=0;vqAnswered=false;
+  vqShuffled=shuffle(vocabData).slice(0,vqTotal);
+  document.getElementById('vq-result').style.display='none';
+  document.getElementById('vq-mcq-questions').style.display='block';
+  document.getElementById('vq-mcq-nav').style.display='flex';
+  document.getElementById('vq-score').textContent=`Score: 0 / ${vqTotal}`;
+  document.getElementById('vq-next').disabled=true;
+  document.getElementById('vq-fill-bar').style.width='0%';
+  renderVQQ();
+}
+
+function renderVQQ(){
+  const q=vqShuffled[vqQ];
+  const wrongs=shuffle(vocabData.filter(v=>v.word!==q.word)).slice(0,3).map(v=>v.def);
+  const opts=shuffle([q.def,...wrongs]);
+  document.getElementById('vq-mcq-questions').innerHTML=`
+    <div class="vq-prompt">Question ${vqQ+1} of ${vqTotal} · ${q.theme}</div>
+    <div class="vq-word">${q.word}</div>
+    <div class="vq-context">${q.pos}</div>
+    <div class="vq-options">${opts.map(o=>`<button class="vq-opt" onclick="vqAns(this,${o===q.def})">${o}</button>`).join('')}</div>`;
+  const fb=document.getElementById('vq-fb');
+  fb.className='vq-feedback'; fb.style.display='none';
+}
+
+function vqAns(btn,ok){
+  if(vqAnswered)return; vqAnswered=true;
+  const q=vqShuffled[vqQ];
+  document.querySelectorAll('.vq-opt').forEach(o=>o.disabled=true);
+  if(ok){btn.classList.add('correct');vqScore++;showVQFb(true,`✓ Correct! Example: ${q.ex}`);}
+  else{
+    btn.classList.add('wrong');
+    document.querySelectorAll('.vq-opt').forEach(o=>{if(o.textContent===q.def)o.classList.add('correct');});
+    showVQFb(false,`✗ Correct answer: "${q.def}" — Example: ${q.ex}`);
+  }
+  document.getElementById('vq-score').textContent=`Score: ${vqScore} / ${vqTotal}`;
+  document.getElementById('vq-next').disabled=false;
+  document.getElementById('vq-next').textContent=vqQ<vqTotal-1?'Next →':'See Results →';
+}
+
+function showVQFb(ok,msg){
+  const fb=document.getElementById('vq-fb');
+  fb.className='vq-feedback show '+(ok?'ok':'nope');
+  fb.textContent=msg; fb.style.display='block';
+}
+
+function vqNext(){
+  if(!vqAnswered)return; vqQ++;
+  if(vqQ>=vqTotal){showVQResult();return;}
+  vqAnswered=false;
+  document.getElementById('vq-next').disabled=true;
+  document.getElementById('vq-fill-bar').style.width=(vqQ/vqTotal*100)+'%';
+  renderVQQ();
+}
+
+function showVQResult(){
+  document.getElementById('vq-mcq-questions').style.display='none';
+  document.getElementById('vq-mcq-nav').style.display='none';
+  document.getElementById('vq-fb').style.display='none';
+  document.getElementById('vq-fill-bar').style.width='100%';
+  document.getElementById('vq-result').style.display='block';
+  document.getElementById('vq-final').textContent=vqScore;
+  let t,m;
+  if(vqScore===vqTotal){t='Perfect! 🏆';m='Excellent! You know all the vocabulary. Well prepared for the mediation task.';}
+  else if(vqScore>=9){t='Great Work!';m=`${vqScore}/${vqTotal} — Very strong. Review the words you missed.`;}
+  else if(vqScore>=6){t='Good Effort!';m=`${vqScore}/${vqTotal} — Solid foundation. Review Section 05 vocabulary cards.`;}
+  else{t='Keep Practising!';m=`${vqScore}/${vqTotal} — Visit Section 05 to review all vocabulary themes, then try again.`;}
+  document.getElementById('vq-result-title').textContent=t;
+  document.getElementById('vq-result-msg').textContent=m;
+}
+function resetVQ(){initVQ();}
+
+// ══════════════════════════════════════
+// FLASHCARDS
+// ══════════════════════════════════════
+let fcIdx=0,fcData=[];
+
+function initFlash(){
+  fcData=shuffle(vocabData); fcIdx=0; renderFC();
+  document.getElementById('vq-fill-bar').style.width='0%';
+}
+
+function renderFC(){
+  const c=fcData[fcIdx];
+  document.getElementById('fc-word').textContent=c.word;
+  document.getElementById('fc-pos').textContent=c.pos+' · '+c.theme;
+  document.getElementById('fc-def').textContent=c.def;
+  document.getElementById('fc-ex').textContent=c.ex;
+  document.getElementById('fc-counter').textContent=`${fcIdx+1} / ${fcData.length}`;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('vq-fill-bar').style.width=((fcIdx+1)/fcData.length*100)+'%';
+}
+
+function flipCard(){document.getElementById('flashcard').classList.toggle('flipped');}
+function fcMove(d){fcIdx=(fcIdx+d+fcData.length)%fcData.length;renderFC();}
+
+// ══════════════════════════════════════
+// FILL IN THE GAP
+// ══════════════════════════════════════
+const fillData=[
+  {s:'Black Americans are ___ affected by police violence, making up 25% of victims despite being only 13% of the population.',a:'disproportionately',h:'adverb from "disproportionate"'},
+  {s:"Biden's 2022 executive order aimed to increase police ___ across all federal agencies.",a:'accountability',h:'noun: being responsible for one\'s actions'},
+  {s:'Chauvin was ___ of murder in April 2021 and sentenced to 22.5 years.',a:'convicted',h:'past participle of "to convict"'},
+  {s:'The ___ rate for Black men in the US is five times higher than for white men.',a:'incarceration',h:'noun: the state of being imprisoned'},
+  {s:"Floyd's death reignited the national debate about police ___ in the USA.",a:'brutality',h:'noun: excessive unlawful force'},
+  {s:'The myth of ___ suggests that anyone can succeed in America if they work hard enough.',a:'meritocracy',h:'noun: advancement based on talent and effort'},
+  {s:'The ___ of a nation founded on liberty while perpetuating racial inequality is a central theme of All American Boys.',a:'hypocrisy',h:"noun: claiming standards one's behaviour doesn't match"},
+  {s:'For generations, Black communities have been ___ by policies and institutions.',a:'marginalised',h:'past participle of "to marginalise"'},
+];
+
+let fillQ=0,fillScore=0,fillChecked=false;
+
+function initFill(){
+  fillQ=0;fillScore=0;fillChecked=false;
+  document.getElementById('fill-result').style.display='none';
+  document.getElementById('fill-nav').style.display='flex';
+  document.getElementById('fill-score').textContent=`Score: 0 / ${fillData.length}`;
+  document.getElementById('fill-next').textContent='Check Answer';
+  document.getElementById('vq-fill-bar').style.width='0%';
+  renderFill();
+}
+
+function renderFill(){
+  const q=fillData[fillQ];
+  const parts=q.s.split('___');
+  document.getElementById('fill-question-wrap').innerHTML=`
+    <div class="vq-prompt">Question ${fillQ+1} of ${fillData.length}</div>
+    <div class="fill-sentence">${parts[0]}<input class="fill-input" id="fill-inp" type="text" placeholder="…" autocomplete="off" onkeydown="if(event.key==='Enter')fillNext()">${parts[1]||''}</div>
+    <div class="fill-hint">Hint: ${q.h}</div>`;
+  const fb=document.getElementById('fill-fb');
+  fb.className='vq-feedback'; fb.style.display='none';
+  document.getElementById('fill-next').textContent='Check Answer';
+  fillChecked=false;
+  setTimeout(()=>{const i=document.getElementById('fill-inp');if(i)i.focus();},80);
+  document.getElementById('vq-fill-bar').style.width=(fillQ/fillData.length*100)+'%';
+}
+
+function fillNext(){
+  if(!fillChecked){
+    const inp=document.getElementById('fill-inp'); if(!inp)return;
+    const val=inp.value.trim().toLowerCase();
+    const ans=fillData[fillQ].a.toLowerCase();
+    fillChecked=true;
+    const fb=document.getElementById('fill-fb');
+    if(val===ans){
+      inp.classList.add('correct'); fillScore++;
+      fb.className='vq-feedback show ok';
+      fb.textContent=`✓ Correct! "${fillData[fillQ].a}"`;
+    } else {
+      inp.classList.add('wrong');
+      fb.className='vq-feedback show nope';
+      fb.textContent=`✗ Correct answer: "${fillData[fillQ].a}"${val?` — you wrote: "${val}"`:''}`;
+    }
+    fb.style.display='block';
+    document.getElementById('fill-score').textContent=`Score: ${fillScore} / ${fillData.length}`;
+    document.getElementById('fill-next').textContent=fillQ<fillData.length-1?'Next →':'See Results →';
+  } else {
+    fillQ++;
+    if(fillQ>=fillData.length){showFillResult();return;}
+    renderFill();
+  }
+}
+
+function showFillResult(){
+  document.getElementById('fill-question-wrap').innerHTML='';
+  document.getElementById('fill-nav').style.display='none';
+  document.getElementById('fill-fb').style.display='none';
+  document.getElementById('vq-fill-bar').style.width='100%';
+  document.getElementById('fill-result').style.display='block';
+  document.getElementById('fill-final').textContent=fillScore;
+  let t,m;
+  if(fillScore===fillData.length){t='Perfect! 🏆';m='All gaps correct! Your active vocabulary is excellent.';}
+  else if(fillScore>=6){t='Very Good!';m=`${fillScore}/${fillData.length} — Strong. Review the words you missed.`;}
+  else if(fillScore>=4){t='Good Effort!';m=`${fillScore}/${fillData.length} — Review Section 05 vocabulary cards and try again.`;}
+  else{t='Keep Practising!';m=`${fillScore}/${fillData.length} — Head back to Section 05, then try again.`;}
+  document.getElementById('fill-result-title').textContent=t;
+  document.getElementById('fill-result-msg').textContent=m;
+}
+function resetFill(){initFill();}
+
+// ══════════════════════════════════════
+// MODE SWITCHING
+// ══════════════════════════════════════
+function setVQMode(mode,btn){
+  document.querySelectorAll('.vq-mode-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('vq-mcq-section').style.display=mode==='mcq'?'block':'none';
+  document.getElementById('vq-flash-section').style.display=mode==='flash'?'block':'none';
+  document.getElementById('vq-fill-section').style.display=mode==='fill'?'block':'none';
+  if(mode==='mcq')initVQ();
+  else if(mode==='flash')initFlash();
+  else if(mode==='fill')initFill();
+}
+
+// ══════════════════════════════════════
+// MEDIATION QUIZ
+// ══════════════════════════════════════
+const totalQ=10;
+let currentQ=0,score=0,answered=false;
+const pEl=document.getElementById('quiz-progress');
+for(let i=0;i<totalQ;i++){const d=document.createElement('div');d.className='progress-dot'+(i===0?' current':'');d.id='dot-'+i;pEl.appendChild(d);}
+
+function answer(btn,ok){
+  if(answered)return; answered=true;
+  const opts=btn.closest('.quiz-question').querySelectorAll('.quiz-opt');
+  opts.forEach(o=>o.disabled=true);
+  const fbs=btn.closest('.quiz-question').querySelectorAll('.quiz-feedback');
+  if(ok){btn.classList.add('correct');fbs[0].classList.add('show');score++;}
+  else{btn.classList.add('wrong');fbs[1].classList.add('show');opts.forEach(o=>{if(o.getAttribute('onclick').includes('true'))o.classList.add('correct');});}
+  document.getElementById('score-display').textContent=`Score: ${score} / ${totalQ}`;
+  document.getElementById('next-btn').disabled=false;
+  document.getElementById('next-btn').textContent=currentQ<totalQ-1?'Next Question →':'See Results →';
+}
+
+function nextQuestion(){
+  if(!answered)return;
+  document.getElementById('dot-'+currentQ).className='progress-dot done';
+  currentQ++;
+  if(currentQ>=totalQ){showResult();return;}
+  document.querySelectorAll('.quiz-question').forEach(q=>q.classList.remove('active'));
+  document.querySelectorAll('.quiz-question')[currentQ].classList.add('active');
+  document.getElementById('dot-'+currentQ).className='progress-dot current';
+  document.getElementById('next-btn').disabled=true;
+  document.getElementById('next-btn').textContent='Next Question →';
+  answered=false;
+}
+
+function showResult(){
+  document.querySelectorAll('.quiz-question').forEach(q=>q.classList.remove('active'));
+  document.getElementById('quiz-nav-row').style.display='none';
+  document.getElementById('quiz-result').classList.add('show');
+  document.getElementById('final-score').textContent=score;
+  let t,m;
+  if(score===10){t='Outstanding! 🏆';m='Perfect score! You have a thorough understanding of mediation structure and key facts.';}
+  else if(score>=8){t='Excellent Work!';m=`${score}/10 — Great result! Review the questions you missed.`;}
+  else if(score>=6){t='Good Effort!';m=`${score}/10 — Solid. Re-read Sections 01–03 and review the statistics.`;}
+  else if(score>=4){t='Keep Practising';m=`${score}/10 — Review all sections, especially the definition of mediation and key facts.`;}
+  else{t="Let's Try Again!";m=`${score}/10 — Go back through all sections and retake the quiz.`;}
+  document.getElementById('result-title').textContent=t;
+  document.getElementById('result-msg').textContent=m;
+}
+
+function resetQuiz(){
+  score=0;currentQ=0;answered=false;
+  document.getElementById('quiz-result').classList.remove('show');
+  document.getElementById('quiz-nav-row').style.display='flex';
+  document.getElementById('score-display').textContent='Score: 0 / 10';
+  document.getElementById('next-btn').disabled=true;
+  document.getElementById('next-btn').textContent='Next Question →';
+  for(let i=0;i<totalQ;i++)document.getElementById('dot-'+i).className='progress-dot'+(i===0?' current':'');
+  document.querySelectorAll('.quiz-question').forEach((q,i)=>{
+    q.classList.toggle('active',i===0);
+    q.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=false;o.classList.remove('correct','wrong');});
+    q.querySelectorAll('.quiz-feedback').forEach(f=>f.classList.remove('show'));
+  });
+}
+
+// ══════════════════════════════════════
+// FEEDBACK
+// ══════════════════════════════════════
+async function getFeedback(){
+  const text=document.getElementById('student-text').value.trim();
+  if(!text||text.length<50){alert('Please paste your email text first.');return;}
+  document.getElementById('feedback-btn').disabled=true;
+  document.getElementById('feedback-loading').style.display='block';
+  document.getElementById('feedback-output').classList.remove('show');
+  document.getElementById('feedback-output').innerHTML='';
+  const sys=`You are an experienced English teacher at a German Gymnasium (NRW), evaluating a Year 12 (Grundkurs) student's mediation task.
+The task: Write an email in English (approx. 180–220 words) to an American exchange student called Tyler, explaining key information from a German article (bpb, "Der Tod von George Floyd") about police violence and structural racism in the USA.
+Key content points:
+1. Floyd's death: 25 May 2020, Minneapolis; Chauvin knelt on neck ~9 minutes
+2. Legal outcome: 22.5 years (2021) — longest in Minnesota history
+3. BLM movement context
+4. Statistics: ~1,000 killed/year; ~25% Black (only ~13% of population); Germany: 13/year
+5. Structural inequality: lower income, worse schools, 5x higher incarceration
+6. Current politics: Biden reforms 2022; Trump 2025 scrapped diversity programmes
+Criteria (NRW GK): task fulfilment (4–5 key points + source reference), semi-formal friendly register (NOT essay), source signals ("According to the article…"), B2 language (grammar, vocab, tenses), structure (opening/body/closing), word count ~180–220.
+Respond with these exact headings:
+OVERALL IMPRESSION
+CONTENT (Task Fulfilment)
+REGISTER & STRUCTURE
+LANGUAGE (Grammar & Vocabulary)
+WORD COUNT
+SUGGESTIONS FOR IMPROVEMENT
+Be encouraging but honest. Write accessible English for a B2 learner. Do NOT write in German.`;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:`Please evaluate this student's mediation email:\n\n${text}`}]})});
+    const data=await r.json();
+    const raw=data.content.map(c=>c.text||'').join('');
+    const fmt=raw
+      .replace(/^OVERALL IMPRESSION$/m,'<h4>📋 Overall Impression</h4>')
+      .replace(/^CONTENT \(Task Fulfilment\)$/m,'<h4>✅ Content (Task Fulfilment)</h4>')
+      .replace(/^REGISTER & STRUCTURE$/m,'<h4>📝 Register & Structure</h4>')
+      .replace(/^LANGUAGE \(Grammar & Vocabulary\)$/m,'<h4>🔤 Language (Grammar & Vocabulary)</h4>')
+      .replace(/^WORD COUNT$/m,'<h4>🔢 Word Count</h4>')
+      .replace(/^SUGGESTIONS FOR IMPROVEMENT$/m,'<h4>💡 Suggestions for Improvement</h4>');
+    const out=document.getElementById('feedback-output');
+    out.innerHTML=fmt; out.classList.add('show');
+  } catch(e){
+    document.getElementById('feedback-output').innerHTML='<p style="color:var(--red)">Error connecting. Please try again.</p>';
+    document.getElementById('feedback-output').classList.add('show');
+  }
+  document.getElementById('feedback-loading').style.display='none';
+  document.getElementById('feedback-btn').disabled=false;
+}
+
+// ══════════════════════════════════════
+// SCROLL ANIMATIONS
+// ══════════════════════════════════════
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+
+// INIT
+initVQ();
+</script>
+</body>
+</html>
